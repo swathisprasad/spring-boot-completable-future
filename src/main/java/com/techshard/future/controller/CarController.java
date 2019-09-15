@@ -31,7 +31,7 @@ public class CarController {
             @RequestParam (value = "files") MultipartFile[] files) {
         try {
             for(final MultipartFile file: files) {
-                CompletableFuture<List<Car>> cars = carService.saveCars(file);
+                carService.saveCars(file);
             }
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch(final Exception e) {
@@ -44,11 +44,11 @@ public class CarController {
             produces={MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody CompletableFuture<ResponseEntity> getAllCars() {
         return carService.getAllCars().<ResponseEntity>thenApply(ResponseEntity::ok)
-                .exceptionally(handleSaveCarFailure);
+                .exceptionally(handleGetCarFailure);
     }
 
-    private static Function<Throwable, ResponseEntity<? extends List<Car>>> handleSaveCarFailure = throwable -> {
-        LOGGER.error("Unable to parse file and save records: {}", throwable);
+    private static Function<Throwable, ResponseEntity<? extends List<Car>>> handleGetCarFailure = throwable -> {
+        LOGGER.error("Failed to read records: {}", throwable);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     };
 }
