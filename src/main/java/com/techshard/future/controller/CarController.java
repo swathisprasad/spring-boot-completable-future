@@ -31,7 +31,7 @@ public class CarController {
             @RequestParam (value = "files") MultipartFile[] files) {
         try {
             for(final MultipartFile file: files) {
-                carService.saveCars(file);
+                carService.saveCars(file.getInputStream());
             }
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch(final Exception e) {

@@ -23,10 +23,10 @@ public class CarService {
     private CarRepository carRepository;
 
     @Async
-    public CompletableFuture<List<Car>> saveCars(final MultipartFile file) throws Exception {
+    public CompletableFuture<List<Car>> saveCars(final InputStream inputStream) throws Exception {
         final long start = System.currentTimeMillis();
 
-        List<Car> cars = parseCSVFile(file);
+        List<Car> cars = parseCSVFile(inputStream);
 
         LOGGER.info("Saving a list of cars of size {} records", cars.size());
 
@@ -36,10 +36,10 @@ public class CarService {
         return CompletableFuture.completedFuture(cars);
     }
 
-    private List<Car> parseCSVFile(final MultipartFile file) throws Exception {
+    private List<Car> parseCSVFile(final InputStream inputStream) throws Exception {
         final List<Car> cars=new ArrayList<>();
         try {
-            try (final BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
+            try (final BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
                 String line;
                 while ((line=br.readLine()) != null) {
                     final String[] data=line.split(";");
