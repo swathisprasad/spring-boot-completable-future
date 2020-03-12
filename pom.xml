@@ -44,6 +44,11 @@
             <version>1.18.10</version>
             <optional>true</optional>
         </dependency>
+        <dependency>
+             <groupId>org.antlr</groupId>
+             <artifactId>antlr-complete</artifactId>
+             <version>3.5.2</version>
+         </dependency>
     </dependencies>
 
     <build>
